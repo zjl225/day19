@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01</title>
+</head>
+<body>
+    <div id="app">
+        <p>
+            <router-link to="/">首页</router-link>
+            <router-link to="/login">登录ss</router-link>
+            <router-link to="/past">帖子管理</router-link>
+        </p>
+        <router-view></router-view>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script>
+        var routes = [
+            {
+                path:'/',
+                component:{
+                    template:`
+                    <div>
+                        <h1>首页007</h1>
+                    </div>
+                    `,
+                },
+            },
+            {
+                path:'/login',
+                component:{
+                    template:`
+                    <div>
+                        <h1>关于我们ooo</h1>
+                    </div>
+                    `,
+                },
+            },
+            {
+                path:'/past',
+                mata:{login_required:true},
+                component:{
+                    template:`<div><h1>帖子管理s</h1>
+                        <router-link to="rain" append>后座</router-link>
+                        <router-view></router-view>
+                              </div>`,
+                          },
+                children:[
+                    {
+                        path:'rain',
+                        component:{
+                            template:`<h2>雨天de后座</h2>`
+                        }
+                    }
+                ]
+            },
+        ];
+    var router=new VueRouter({
+        routes:routes,
+    });
+
+    router.beforeEach(function(to, from, next){
+       var loggen_in=false;
+        if(!loggen_in && to.matched.some(function(item){
+            return item.mata.login_required;
+        }))
+           next('/login');
+           else
+           next();
+    })
+
+    new Vue({
+        el:'#app',
+        router:router,
+    });
+    </script>
+</body>
+</html>
